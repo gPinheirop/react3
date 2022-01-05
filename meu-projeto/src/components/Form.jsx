@@ -1,9 +1,14 @@
+import { useState } from "react"
+
 const Form = () => {
 
-function cadastrarUsuario(e){
-    e.preventDefault()
-    console.log("usuario cadastrado")
-}
+    const [name, setName] = useState('')
+    const [password, setPassword] = useState('')
+
+    function cadastrarUsuario(e){
+        e.preventDefault()
+        console.log(`Usuário ${name} foi cadastrado com a senha ${password}`)
+    }
 
     return (
         <>
@@ -15,15 +20,18 @@ function cadastrarUsuario(e){
                     type="text" 
                     placeholder="Digite o seu nome"
                     id="name"
-                    name="name"/>
+                    name="name"
+                    onChange={(e)=> setName(e.target.value)}
+                    />
             </div>
             <div>
-            <label htmlFor="passowrd">Senha:</label>
+            <label htmlFor="password">Senha:</label>
                 <input
-                    type="passowrd"
+                    type="password"
                     placeholder="Digite sua senha"
-                    id="passowrd"
-                    name="passowrd"/>
+                    id="password"
+                    name="password"
+                    onChange={(e)=> setPassword(e.target.value)}/>
             </div>
             <div>
                 <input type="submit" value="Cadastrar" />

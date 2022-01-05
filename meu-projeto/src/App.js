@@ -1,23 +1,31 @@
+import{BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+
 import './App.css';
-import Evento from './components/Evento';
-import Form from './components/Form';
-import List from './components/List';
-import Pessoa from './components/Pessoa';
+import Home from './components/pages/Home';
+import Contato from './components/pages/Contato';
+import Empresa from './components/pages/Empresa';
+import NavBar from './components/layout/NavBar';
+import Footer from './components/layout/Footer';
+
+
 
 function App() {
+
+
+
   return (
-    <div className="App">
-      <h1>Salve</h1>
-      <Pessoa
-        nome = "Renatin"
-        idade ="35"
-        profissao = "manobrista de bitrem"
-        foto = "https://via.placeholder.com/150"
-      />
-      <Evento numero ={1}/>
-      <List />
-      <Form />
-    </div>
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route exact path="/" element={<Home/>}>
+        </Route>
+        <Route exact path="/empresa" element={<Empresa/>}>
+        </Route>
+        <Route exact path="/contato" element={<Contato/>}>
+        </Route>
+      </Routes>
+      <Footer />
+    </Router>
   );
 }
 
