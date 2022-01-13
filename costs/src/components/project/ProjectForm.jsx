@@ -15,10 +15,10 @@ function ProjectForm({ handleSubmit, btnText, projectData }){
         fetch('http://localhost:5000/categories',{
         method: "GET",
         headers:{
-            'Content-Type' : 'aplication/json'
-        }
+            'Content-Type' : 'application/json',
+        },
     })
-    .then(resp => resp.json())
+    .then((resp) => resp.json())
     .then((data) => {
         setCategories(data)
     })
@@ -32,7 +32,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }){
     }
 
     function handleChange (e){
-        setProject({...project,[e.target.name]: e.target.value})
+        setProject({...project,[e.target.name] : e.target.value})
         
     }
     function handleCategory (e){
