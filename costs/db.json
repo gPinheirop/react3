@@ -7,8 +7,21 @@
         "id": "4",
         "name": "Planejamento"
       },
-      "cost": 0,
-      "services": [],
+      "cost": null,
+      "services": [
+        {
+          "name": "Serviço 1",
+          "cost": "24",
+          "description": "O primeiro serviço a ser criado na esperança de dar um erro",
+          "id": "a82d3e49-579b-440c-a7d9-1055892da7ef"
+        },
+        {
+          "name": "Serviço 2",
+          "cost": "2",
+          "description": "Gerar um serviço para testar o fechamento do formulário de serviços após uma nova criação",
+          "id": "72ef76af-a1da-46bc-8615-0e2d1b86300e"
+        }
+      ],
       "id": 1
     },
     {

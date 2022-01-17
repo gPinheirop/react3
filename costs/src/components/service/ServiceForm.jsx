@@ -7,11 +7,11 @@ import styles from '../project/ProjectForm.module.css'
 
 function ServiceForm({handleSubmit, btnText, projectData}) {
 
-    const [service, setService] = useState([])
+    const [service, setService] = useState({})
 
     function submit(e){
         e.preventDefault()
-        projectData.serveces.push(service)
+        projectData.services.push(service)
         handleSubmit(projectData)
     }
 
@@ -41,7 +41,7 @@ function ServiceForm({handleSubmit, btnText, projectData}) {
                 />
                 <Input 
                     type="text" 
-                    text="descrição do serviço"    
+                    text="Descrição do serviço"    
                     name='description'
                     placeholder='Descreva o serviço'
                     handleOnChange={handleChange}

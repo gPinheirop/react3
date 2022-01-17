@@ -8,16 +8,19 @@ import Loading from '../layout/Loading'
 import ProjectForm from '../project/ProjectForm'
 import Message from '../layout/Message'
 import ServiceForm from '../service/ServiceForm'
+import ServiceCard from '../service/ServiceCard'
 
 import styles from './Project.module.css'
 
 function Project() {
 
     const [project, setProject] = useState([])
+    const [services, setServices] = useState([])
     const [showProjectForm, setShowProjectForm] = useState(false)
     const [showServiceForm, setShowServiceForm] = useState(false)
     const [message, setMessage] = useState()
     const [type, setType] = useState()
+
 
     const { id } = useParams()
 
@@ -33,13 +36,25 @@ function Project() {
             .then((resp) => resp.json())
             .then(data => {
                 setProject(data)
+                setServices(data.services)
             })
             .catch(err => console.log(err))
         }, 300)
         
     }, [id])
 
+    function removeService (id, cost){
+        const serviceUpdated = project.services.filter(
+            (service) => service.id !== id
+        )
+        const projectUpdated = project
+        
+    }
+
+
     function createService(project){
+
+        setMessage('')
         
         //list service
         const lastService = project.services[project.services.length -1]
@@ -47,7 +62,33 @@ function Project() {
 
         const lastServiceCost = lastService.cost
 
-        const newCost = parseFloat(project.cost) + parseFloat(lastService.cost)
+        const newCost = parseFloat(project.cost) + parseFloat(lastServiceCost)
+
+        //max value validation
+        if(newCost > parseFloat(project.budget)){
+            setMessage('Orçamento ultrapassado, verifique o valor do serviço')
+            setType('error')
+            project.services.pop()
+            return false
+        }
+
+        //add service cost to project total cost
+        project.cost = newCost
+
+        //update project
+        fetch(`http://localhost:5000/projects/${project.id}`, {
+            method:'PATCH',
+            headers:{
+                "Content-Type" : "application/json" 
+            },
+            body: JSON.stringify(project)
+        })
+        .then((resp)=> resp.json())
+        .then((data)=>{
+            setShowServiceForm(false)
+            }
+        )
+        .catch(err => console.log(err))
     }
 
     function editPost(project){
@@ -125,16 +166,29 @@ function Project() {
                                     >{!showServiceForm ?  'Adicionar serviço' : 'fechar'}
                                 </button>
                                 <div className={styles.project_info}>
-                                    {showServiceForm && <ServiceForm
+                                    {showServiceForm && (<ServiceForm
                                         handleSubmit={createService}
                                         btnText="Adicionar serviço"
                                         projectData={project}
-                                    />}
+                                    />)}
                                 </div>
                         </div>
                         <h2>Serviços</h2>
                         <Container customClass="start">
-                            <p>Tipos de serviços</p>
+                            {services.length > 0 && 
+                                services.map((service) => (
+                                    <ServiceCard
+                                        id={service.id}
+                                        name={service.name}
+                                        cost={service.cost}
+                                        description={service.description}
+                                        key={service.id}
+                                        handleRemove={removeService}
+                                        
+                                    />
+                                ))
+                            }
+                            {services.length ===0 && <p>Não há serviços cadastrados</p>}
                         </Container>
                     </Container>
                 </div>
